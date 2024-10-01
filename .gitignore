@@ -45,7 +45,7 @@ obj/
 *.idb
 *.tlog
 
-# Paket yöneticisi
+# Paket y�neticisi
 *.nuget/
 packages/
 *.nupkg
