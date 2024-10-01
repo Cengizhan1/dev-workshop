@@ -1,0 +1,49 @@
+{
+  "realm": "dev-workshop-realm",
+  "enabled": true,
+  "users": [
+    {
+      "username": "testuser",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Test",
+      "lastName": "User",
+      "email": "testuser@example.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "my-client",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "my-client-secret",
+      "redirectUris": [
+        "http://localhost:8080/*"
+      ],
+      "publicClient": true,
+      "protocol": "openid-connect",
+      "webOrigins": [
+        "*"
+      ]
+    }
+  ],
+  "roles": {
+    "realm": [
+      {
+        "name": "user",
+        "description": "Default role for users"
+      },
+      {
+        "name": "admin",
+        "description": "Role with admin privileges"
+      }
+    ]
+  }
+}
