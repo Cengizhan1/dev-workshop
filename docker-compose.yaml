@@ -24,7 +24,7 @@ services:
       # Realm import path
       KC_IMPORT: /opt/keycloak/data/import/initial-realm.json
     volumes:
-      - ./realms/initial-realm.json:/opt/keycloak/data/import/initial-realm.json
+      - ./Auth/realms/initial-realm.json:/opt/keycloak/data/import/initial-realm.json
     command: start-dev
     depends_on:
       - authdb
