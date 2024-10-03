@@ -1,7 +1,9 @@
-﻿using Application.Interfaces;
+﻿using Application.Extensions;
+using Application.Interfaces;
 using Domain.ConfigModels;
 using Domain.Requests;
 using Domain.Responses;
+using Infrastructure.Mapping;
 using Microsoft.Extensions.Options;
 using System.Net.Http;
 using System.Text.Json;
@@ -26,7 +28,7 @@ public class AuthService : IAuthService
 
     }
 
-    public async Task<TokenResponse> Refresh(RefreshRequest request)
+    public async Task<CustomDataResponse<TokenResponse>> Refresh(RefreshRequest request)
     {
         var tokenEndpoint = _config.Endpoints.Token;
 
@@ -50,6 +52,6 @@ public class AuthService : IAuthService
         var content = await response.Content.ReadAsStringAsync();
         var tokenResponse = JsonSerializer.Deserialize<TokenResponse>(content);
 
-        return tokenResponse;
+        return tokenResponse.ToCustomDataResponse(true);
     }
 }
