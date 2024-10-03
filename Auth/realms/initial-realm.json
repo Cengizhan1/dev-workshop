@@ -20,10 +20,10 @@
   ],
   "clients": [
     {
-      "clientId": "my-client",
+      "clientId": "auth-client",
       "enabled": true,
       "clientAuthenticatorType": "client-secret",
-      "secret": "my-client-secret",
+      "secret": "auth-client-secret",
       "redirectUris": [
         "http://localhost:8080/*"
       ],
