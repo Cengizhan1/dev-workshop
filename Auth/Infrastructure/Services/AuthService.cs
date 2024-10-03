@@ -1,16 +1,34 @@
 ﻿using Application.Interfaces;
 using Domain.Requests;
 using Domain.Responses;
+using FluentValidation;
 
 namespace Infrastructure.Services;
 
 public class AuthService : IAuthService
 {
-    public Task<CustomDataResponse<LoginResponse>> Login(LoginRequest request)
+    private readonly IValidator<LoginRequest> _validator;
+    public AuthService(IValidator<LoginRequest> validator)
     {
-        // TODO: LoginRequest için validaasyon eklenecek
+        _validator = validator;
+    }
 
-        throw new NotImplementedException();
+    public async Task<CustomDataResponse<LoginResponse>> Login(LoginRequest request)
+    {
+        var validationResult = await _validator.ValidateAsync(request);
 
+        if (!validationResult.IsValid)
+        {
+            var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+            return new CustomDataResponse<LoginResponse>(); // değiştirilecek
+        }
+
+        // TODO: Login işlemleri yapılacak
+        var response = new LoginResponse
+        {
+            
+        };
+
+        return new CustomDataResponse<LoginResponse>(); // değiştirilecek
     }
 }
