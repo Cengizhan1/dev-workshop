@@ -19,12 +19,33 @@ public class AuthService : IAuthService
     {
         _config = config.Value;
     }
-    public Task<CustomDataResponse<LoginResponse>> Login(LoginRequest request)
+    public async Task<CustomDataResponse<LoginResponse>> Login(LoginRequest request)
     {
-        // TODO: LoginRequest için validaasyon eklenecek
+        var tokenEndpoint = _config.Endpoints.Token;
+
+        var requestData = new FormUrlEncodedContent(new[]
+        {
+            new KeyValuePair<string, string>("client_id", _config.ClientId),
+            new KeyValuePair<string, string>("client_secret", _config.ClientSecret),
+            new KeyValuePair<string, string>("grant_type", "password"),
+            new KeyValuePair<string, string>("username", request.Username),
+        });
+
+        var response =await _httpClient.PostAsync(tokenEndpoint, requestData); 
 
 
-        return null;
+        // TODO: Exception handle edilecek
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception("Could not login");
+        }
+
+        var content = response.Content.ReadAsStringAsync();
+
+        var loginResponse = JsonSerializer.Deserialize<LoginResponse>(content.Result);
+
+
+        return loginResponse.ToCustomDataResponse(true);
 
     }
 
@@ -36,7 +57,7 @@ public class AuthService : IAuthService
         {
             new KeyValuePair<string, string>("client_id", _config.ClientId),
             new KeyValuePair<string, string>("client_secret", _config.ClientSecret),
-            new KeyValuePair<string, string>("grant_type", "Bearer"),
+            new KeyValuePair<string, string>("grant_type", "refresh_token"),
             new KeyValuePair<string, string>("refresh_token", request.RefreshToken)
         });
 
