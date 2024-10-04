@@ -71,6 +71,43 @@ public class AuthService : IAuthService
 
         return CommonResponseMapper.ToCustomApiResponse(true);
     }
+    
+    public async Task<CustomApiResponse> Register(RegisterRequest request)
+    {
+        var adminToken = await GetAdminAccessTokenAsync();
+
+        var registerEndpoint = _config.Endpoints.Register;
+        
+        var requestData = new StringContent(JsonSerializer.Serialize( new
+        {
+            username = request.Username,
+            email = request.Email,
+            enabled = true,
+            credentials = new[]
+            {
+                new
+                {
+                    type = "password",
+                    value = request.Password,
+                    temporary = false
+                }
+            }
+        }), System.Text.Encoding.UTF8, "application/json");
+
+        _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", adminToken);
+
+        var response = await _httpClient.PostAsync(registerEndpoint, requestData);
+
+        // TODO: Exception handle edilecek
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception("Could not register user");
+        }
+        
+        // TODO: add user to the database
+
+        return CommonResponseMapper.ToCustomApiResponse(true);
+    }
 
     public async Task<CustomDataResponse<TokenResponse>> Refresh(RefreshRequest request)
     {
@@ -98,4 +135,30 @@ public class AuthService : IAuthService
 
         return tokenResponse.ToCustomDataResponse(true);
     }
+    
+    private async Task<string> GetAdminAccessTokenAsync()
+    {
+        var tokenEndpoint = _config.Endpoints.Token;
+
+        var requestData = new FormUrlEncodedContent(new[]
+        {
+            new KeyValuePair<string, string>("client_id", _config.ClientId),
+            new KeyValuePair<string, string>("client_secret", _config.ClientSecret),
+            new KeyValuePair<string, string>("grant_type", "client_credentials")
+        });
+
+        var response = await _httpClient.PostAsync(tokenEndpoint, requestData);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception("Could not retrieve admin access token");
+        }
+
+        var content = await response.Content.ReadAsStringAsync();
+        var tokenResponse = JsonSerializer.Deserialize<TokenResponse>(content);
+
+        return tokenResponse.Token;
+    }
+
+    
 }
