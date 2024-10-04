@@ -49,6 +49,29 @@ public class AuthService : IAuthService
 
     }
 
+    public async Task<CustomApiResponse> Logout(LogoutRequest request)
+    {
+        var tokenEndpoint = _config.Endpoints.Logout;
+
+        var requestData = new FormUrlEncodedContent(new[]
+        {
+            new KeyValuePair<string, string>("client_id", _config.ClientId),
+            new KeyValuePair<string, string>("client_secret", _config.ClientSecret),    
+            new KeyValuePair<string, string>("refresh_token", request.RefreshToken),
+        });
+
+        var response =await _httpClient.PostAsync(tokenEndpoint, requestData);
+
+        // TODO: Exception handle edilecek
+        if (!response.IsSuccessStatusCode)
+
+        {
+            throw new Exception("Could not logout");
+        }
+
+        return CommonResponseMapper.ToCustomApiResponse(true);
+    }
+
     public async Task<CustomDataResponse<TokenResponse>> Refresh(RefreshRequest request)
     {
         var tokenEndpoint = _config.Endpoints.Token;
