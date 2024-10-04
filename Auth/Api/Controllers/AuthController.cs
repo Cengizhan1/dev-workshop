@@ -26,15 +26,15 @@ public class AuthController : CustomBaseController
     {
         return ApiResponse(await _service.Register());
     }
-
+*/
 
 
     [HttpPost("logout")]
-    public async Task<IActionResult> Logout()
+    public async Task<IActionResult> Logout([FromBody] LogoutRequest request)
     {
-        return ApiResponse(await _service.Logout());
+        return ApiResponse(await _service.Logout(request));
     }
-*/
+
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh([FromBody] RefreshRequest request)
     {
