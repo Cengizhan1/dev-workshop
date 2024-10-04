@@ -12,7 +12,7 @@ public class AuthController : CustomBaseController
     public AuthController(IAuthService service)
     {
         this._service = service;
-    }
+    } 
 
 
     [HttpPost("login")]
