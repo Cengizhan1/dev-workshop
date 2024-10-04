@@ -10,4 +10,5 @@ public interface IAuthService
     Task<CustomDataResponse<TokenResponse>> Refresh(RefreshRequest request);
 
     Task<CustomApiResponse> Logout(LogoutRequest request);
+    Task<CustomApiResponse> Register(RegisterRequest request);
 }

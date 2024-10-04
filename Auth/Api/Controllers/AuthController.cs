@@ -19,14 +19,12 @@ public class AuthController : CustomBaseController
     {
         return ApiResponse(await _service.Login(request));
     }
-/*
-    [HttpPost("register")]
-    public async Task<IActionResult> Register()
-    {
-        return ApiResponse(await _service.Register());
-    }
-*/
 
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+    {
+        return ApiResponse(await _service.Register(request));
+    }
 
     [HttpPost("logout")]
     public async Task<IActionResult> Logout([FromBody] LogoutRequest request)
