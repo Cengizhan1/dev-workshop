@@ -85,6 +85,7 @@ public class AuthService : IAuthService
             username = request.Username,
             email = request.Email,
             enabled = true,
+            emailVerified = false,
             credentials = new[]
             {
                 new
@@ -103,7 +104,8 @@ public class AuthService : IAuthService
         // TODO: Exception handle edilecek
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception(response.ToString());
+            var errorContent = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Error during registration. Status Code: {response.StatusCode}, Response: {errorContent}");
         }
 
         // TODO: add user to the database
