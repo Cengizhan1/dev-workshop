@@ -14,7 +14,6 @@ public class AuthController : CustomBaseController
         this._service = service;
     } 
 
-
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
