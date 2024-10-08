@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35303.130
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Blog\Api.csproj", "{B16ABCD6-ACE9-4B2B-9715-7A96C1BD1A50}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{398FAFDC-CDEC-491E-914B-13A4A8132B08}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.Domain", "Domain\Blog.Domain.csproj", "{F798038A-B675-423D-9AD8-DCA7E22913F5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B16ABCD6-ACE9-4B2B-9715-7A96C1BD1A50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B16ABCD6-ACE9-4B2B-9715-7A96C1BD1A50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B16ABCD6-ACE9-4B2B-9715-7A96C1BD1A50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B16ABCD6-ACE9-4B2B-9715-7A96C1BD1A50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{398FAFDC-CDEC-491E-914B-13A4A8132B08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{398FAFDC-CDEC-491E-914B-13A4A8132B08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{398FAFDC-CDEC-491E-914B-13A4A8132B08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{398FAFDC-CDEC-491E-914B-13A4A8132B08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F798038A-B675-423D-9AD8-DCA7E22913F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F798038A-B675-423D-9AD8-DCA7E22913F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F798038A-B675-423D-9AD8-DCA7E22913F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F798038A-B675-423D-9AD8-DCA7E22913F5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A6D7FC09-39AD-4CD8-9AEE-F6381E0FD0B0}
+	EndGlobalSection
+EndGlobal
