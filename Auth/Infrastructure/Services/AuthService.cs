@@ -33,7 +33,7 @@ public class AuthService : IAuthService
             new KeyValuePair<string, string>("password", request.Password)
         });
 
-        var response =await _httpClient.PostAsync(tokenEndpoint, requestData); 
+        var response = await _httpClient.PostAsync(tokenEndpoint, requestData);
 
 
         // TODO: Exception handle edilecek
@@ -58,29 +58,28 @@ public class AuthService : IAuthService
         var requestData = new FormUrlEncodedContent(new[]
         {
             new KeyValuePair<string, string>("client_id", _config.ClientId),
-            new KeyValuePair<string, string>("client_secret", _config.ClientSecret),    
+            new KeyValuePair<string, string>("client_secret", _config.ClientSecret),
             new KeyValuePair<string, string>("refresh_token", request.RefreshToken),
         });
 
-        var response =await _httpClient.PostAsync(tokenEndpoint, requestData);
+        var response = await _httpClient.PostAsync(tokenEndpoint, requestData);
 
         // TODO: Exception handle edilecek
         if (!response.IsSuccessStatusCode)
-
         {
             throw new Exception("Could not logout");
         }
 
         return CommonResponseMapper.ToCustomApiResponse(true);
     }
-    
+
     public async Task<CustomApiResponse> Register(RegisterRequest request)
     {
         var adminToken = await GetAdminAccessTokenAsync();
 
         var registerEndpoint = GenerateFullUrl(_config.Endpoints.Register);
-        
-        var requestData = new StringContent(JsonSerializer.Serialize( new
+
+        var requestData = new StringContent(JsonSerializer.Serialize(new
         {
             username = request.Username,
             email = request.Email,
@@ -139,7 +138,7 @@ public class AuthService : IAuthService
 
         return tokenResponse.ToCustomDataResponse(true);
     }
-    
+
     private async Task<string> GetAdminAccessTokenAsync()
     {
         var tokenEndpoint = GenerateFullUrl(_config.Endpoints.Token);
@@ -170,5 +169,5 @@ public class AuthService : IAuthService
         return _config.Authority + url;
     }
 
-    
+
 }
