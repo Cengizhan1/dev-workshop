@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
-namespace Blog.Controllers;
+namespace Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

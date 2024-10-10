@@ -1,6 +1,6 @@
 ﻿namespace BlogDomain.Responses;
 
-public class BlogCreatedResponse
+public class BlogShowResponse
 {
     public int Id { get; set; }
     public string Title { get; set; }
@@ -12,5 +12,4 @@ public class BlogCreatedResponse
     public DateTime UpdatedAt { get; set; }
 
 }
-
 
