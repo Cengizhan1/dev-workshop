@@ -1,4 +1,3 @@
-﻿
 using BlogDomain.Requests;
 using BlogDomain.Responses;
 using Domain.Responses;
@@ -16,4 +15,5 @@ public interface IBlogService
     public Task<CustomDataResponse<SuccessDataResponse>> Update(BlogUpdateRequest request);
 
     public Task<CustomDataResponse<SuccessDataResponse>> Delete(int id);
+
 }

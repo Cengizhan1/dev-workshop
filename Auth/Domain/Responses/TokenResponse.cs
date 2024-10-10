@@ -1,11 +1,20 @@
-﻿namespace Domain.Responses;
+﻿using System.Text.Json.Serialization;
+
+namespace Domain.Responses;
 
 public class TokenResponse
 {
-    public string Token { get; set; }
-    public DateTime ExpireTime { get; set; }
+    [JsonPropertyName("access_token")]
+    public string AccessToken { get; set; }
+
+    [JsonPropertyName("expires_in")]
+    public int ExpireTime { get; set; }
+
+    [JsonPropertyName("refresh_token")]
     public string RefreshToken { get; set; }
-    public DateTime RefreshTokenExpireTime { get; set; }
+
+    [JsonPropertyName("refresh_expires_in")]
+    public int RefreshTokenExpireTime { get; set; }
 }
 
 

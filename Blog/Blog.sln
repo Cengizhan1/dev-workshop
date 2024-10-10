@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.Domain", "Domain\Blog.Domain.csproj", "{F798038A-B675-423D-9AD8-DCA7E22913F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{7F9BC792-2207-4141-82EB-B9C3A30F7B9D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +31,7 @@ Global
 		{7F9BC792-2207-4141-82EB-B9C3A30F7B9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F9BC792-2207-4141-82EB-B9C3A30F7B9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F9BC792-2207-4141-82EB-B9C3A30F7B9D}.Release|Any CPU.Build.0 = Release|Any CPU
+
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
