@@ -1,6 +1,6 @@
-﻿namespace BlogDomain.Responses;
+﻿namespace BlogDomain.Entities;
 
-public class BlogCreatedResponse
+public class Blog
 {
     public int Id { get; set; }
     public string Title { get; set; }
@@ -11,6 +11,10 @@ public class BlogCreatedResponse
 
     public DateTime UpdatedAt { get; set; }
 
+    // user eklenecek
+
+    // blog category eklenecek
+
+
+    
 }
-
-
