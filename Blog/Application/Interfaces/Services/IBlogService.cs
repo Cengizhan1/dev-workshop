@@ -2,7 +2,7 @@ using BlogDomain.Requests;
 using BlogDomain.Responses;
 using Domain.Responses;
 
-namespace Application.Interfaces;
+namespace Application.Interfaces.Services;
 
 public interface IBlogService
 {
