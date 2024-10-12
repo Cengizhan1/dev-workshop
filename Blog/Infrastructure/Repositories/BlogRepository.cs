@@ -14,7 +14,7 @@ public class BlogRepository : IBlogRepository
         _context = context;
         _blogSet = context.Set<Blog>();
     }
-    public async ValueTask Create(Blog blog)
+    public async ValueTask CreateAsync(Blog blog)
     {
         await _blogSet.AddAsync(blog);
     }
@@ -24,13 +24,13 @@ public class BlogRepository : IBlogRepository
         _blogSet.Remove(blog);
     }
 
-    public async Task<IEnumerable<Blog>> GetAll()
+    public async Task<IEnumerable<Blog>> GetAllAsync()
     {
         // TODO: filtre ve pagination eklenecek
         return await _blogSet.ToListAsync();
     }
 
-    public async Task<Blog?> GetById(int id)
+    public async Task<Blog?> GetByIdAsync(int id)
     {
         return await _blogSet.FindAsync(id);
     }
