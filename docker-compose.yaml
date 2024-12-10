@@ -49,9 +49,9 @@ services:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: dev-workshop-mssql
     environment:
-      ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: "123456"
-      MSSQL_PID: "sa"
+        ACCEPT_EULA: "Y"
+        MSSQL_SA_PASSWORD: "StrongPassword123!"
+        MSSQL_PID: "Developer"
     ports:
       - 1433:1433
     networks:

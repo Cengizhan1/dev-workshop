@@ -32,7 +32,6 @@ public class BlogService : IBlogService
 
         var response = _mapper.Map<BlogCreatedResponse>(blog);
 
-
         return response.ToCustomDataResponse(true, HttpStatusCode.Created);
     }
 
@@ -62,6 +61,7 @@ public class BlogService : IBlogService
 
     public async Task<CustomApiResponse> UpdateAsync(int id, BlogUpdateRequest request)
     {
+
         Blog blog = await FindBlogById(id);
 
         blog.Title = request.Title;

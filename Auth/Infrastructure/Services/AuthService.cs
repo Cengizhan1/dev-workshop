@@ -6,6 +6,7 @@ using Domain.Responses;
 using Infrastructure.Mapping;
 using Microsoft.Extensions.Options;
 using System.Net.Http;
+using System.Runtime.ConstrainedExecution;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -15,9 +16,11 @@ public class AuthService : IAuthService
 {
     private readonly KeycloakOptions _config;
     private readonly HttpClient _httpClient = new();
-    public AuthService(IOptions<KeycloakOptions> config)
+    private readonly IUserService _userService;
+    public AuthService(IOptions<KeycloakOptions> config, IUserService userService)
     {
         _config = config.Value;
+        _userService = userService;
     }
     public async Task<CustomDataResponse<LoginResponse>> Login(LoginRequest request)
     {
@@ -107,7 +110,15 @@ public class AuthService : IAuthService
             throw new Exception($"Error during registration. Status Code: {response.StatusCode}, Response: {errorContent}");
         }
 
-        // TODO: add user to the database
+        UserCreateRequest userCreateRequest = new UserCreateRequest
+        {
+            Username = request.Username,
+            Email = request.Email,
+            Phone = request.Phone,
+            PhoneCode = request.PhoneCode
+        };
+
+        await _userService.CreateAsync(userCreateRequest);
 
         return CommonResponseMapper.ToCustomApiResponse(true);
     }
@@ -166,7 +177,7 @@ public class AuthService : IAuthService
 
     private string GenerateFullUrl(string url)
     {
-        return _config.Authority + url;
+        return _config.KeyCloakBaseUrl + url;
     }
 
 
