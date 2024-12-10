@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Domain.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -27,6 +28,7 @@ public class AuthController : CustomBaseController
     }
 
     [HttpPost("logout")]
+    [Authorize]
     public async Task<IActionResult> Logout([FromBody] LogoutRequest request)
     {
         return ApiResponse(await _service.Logout(request));
