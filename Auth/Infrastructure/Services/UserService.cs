@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Api.Exceptions;
+using Application.Interfaces;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Requests;
@@ -63,7 +64,7 @@ public class UserService : IUserService
         // TODO: Exception handle edilecek
         if (user == null)
         {
-            throw new Exception("User not found");
+            throw new NotFoundException("User not found");
         }
 
         return user;
