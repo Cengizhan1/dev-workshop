@@ -30,6 +30,11 @@ public class UserRepository : IUserRepository
         return await _userSet.FindAsync(id);
     }
 
+    public async Task<User> GetByUsernameAsync(string username)
+    {
+        return await _userSet.FirstAsync(x => x.Username == username);
+    }
+
     public void Update(User user)
     {
         _userSet.Update(user);

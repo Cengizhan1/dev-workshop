@@ -4,6 +4,8 @@ using Domain.ConfigModels;
 using Domain.Requests;
 using Domain.Responses;
 using Infrastructure.Mapping;
+using Infrastructure.Proxies;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Net.Http;
 using System.Runtime.ConstrainedExecution;
@@ -15,18 +17,18 @@ namespace Infrastructure.Services;
 public class AuthService : IAuthService
 {
     private readonly KeycloakOptions _config;
-    private readonly HttpClient _httpClient = new();
+    private readonly ILogger<AuthService> _logger;
     private readonly IUserService _userService;
-    public AuthService(IOptions<KeycloakOptions> config, IUserService userService)
+    private readonly IKeycloakProxy _keycloakProxy;
+    public AuthService(IOptions<KeycloakOptions> config, IUserService userService, ILogger<AuthService> logger, KeycloakProxy keycloakProxy)
     {
         _config = config.Value;
         _userService = userService;
+        _logger = logger;
+        _keycloakProxy = keycloakProxy;
     }
     public async Task<CustomDataResponse<LoginResponse>> Login(LoginRequest request)
     {
-        var tokenEndpoint = GenerateFullUrl(_config.Endpoints.Token);
-
-
         var requestData = new FormUrlEncodedContent(new[]
         {
             new KeyValuePair<string, string>("client_id", _config.ClientId),
@@ -36,19 +38,7 @@ public class AuthService : IAuthService
             new KeyValuePair<string, string>("password", request.Password)
         });
 
-        var response = await _httpClient.PostAsync(tokenEndpoint, requestData);
-
-
-        // TODO: Exception handle edilecek
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new Exception(response.ToString());
-        }
-
-        var content = response.Content.ReadAsStringAsync();
-
-        var loginResponse = JsonSerializer.Deserialize<LoginResponse>(content.Result);
-
+        var loginResponse = await _keycloakProxy.LoginAsync(requestData);
 
         return loginResponse.ToCustomDataResponse(true);
 
@@ -56,8 +46,6 @@ public class AuthService : IAuthService
 
     public async Task<CustomApiResponse> Logout(LogoutRequest request)
     {
-        var tokenEndpoint = GenerateFullUrl(_config.Endpoints.Logout);
-
         var requestData = new FormUrlEncodedContent(new[]
         {
             new KeyValuePair<string, string>("client_id", _config.ClientId),
@@ -65,23 +53,13 @@ public class AuthService : IAuthService
             new KeyValuePair<string, string>("refresh_token", request.RefreshToken),
         });
 
-        var response = await _httpClient.PostAsync(tokenEndpoint, requestData);
-
-        // TODO: Exception handle edilecek
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new Exception("Could not logout");
-        }
+        await _keycloakProxy.LogoutAsync(requestData);
 
         return CommonResponseMapper.ToCustomApiResponse(true);
     }
 
     public async Task<CustomApiResponse> Register(RegisterRequest request)
     {
-        var adminToken = await GetAdminAccessTokenAsync();
-
-        var registerEndpoint = GenerateFullUrl(_config.Endpoints.Register);
-
         var requestData = new StringContent(JsonSerializer.Serialize(new
         {
             username = request.Username,
@@ -99,16 +77,7 @@ public class AuthService : IAuthService
             }
         }), System.Text.Encoding.UTF8, "application/json");
 
-        _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", adminToken);
-
-        var response = await _httpClient.PostAsync(registerEndpoint, requestData);
-
-        // TODO: Exception handle edilecek
-        if (!response.IsSuccessStatusCode)
-        {
-            var errorContent = await response.Content.ReadAsStringAsync();
-            throw new Exception($"Error during registration. Status Code: {response.StatusCode}, Response: {errorContent}");
-        }
+        await _keycloakProxy.RegisterAsync(requestData);
 
         UserCreateRequest userCreateRequest = new UserCreateRequest
         {
@@ -125,8 +94,6 @@ public class AuthService : IAuthService
 
     public async Task<CustomDataResponse<TokenResponse>> Refresh(RefreshRequest request)
     {
-        var tokenEndpoint = GenerateFullUrl(_config.Endpoints.Token);
-
         var requestData = new FormUrlEncodedContent(new[]
         {
             new KeyValuePair<string, string>("client_id", _config.ClientId),
@@ -135,50 +102,8 @@ public class AuthService : IAuthService
             new KeyValuePair<string, string>("refresh_token", request.RefreshToken)
         });
 
-        var response = await _httpClient.PostAsync(tokenEndpoint, requestData);
-
-
-        // TODO: Exception handle edilecek
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new Exception("Could not refresh token");
-        }
-
-        var content = await response.Content.ReadAsStringAsync();
-        var tokenResponse = JsonSerializer.Deserialize<TokenResponse>(content);
+        var tokenResponse = await _keycloakProxy.RefreshAsync(requestData);
 
         return tokenResponse.ToCustomDataResponse(true);
     }
-
-    private async Task<string> GetAdminAccessTokenAsync()
-    {
-        var tokenEndpoint = GenerateFullUrl(_config.Endpoints.Token);
-
-        var requestData = new FormUrlEncodedContent(new[]
-        {
-            new KeyValuePair<string, string>("client_id", _config.ClientId),
-            new KeyValuePair<string, string>("client_secret", _config.ClientSecret),
-            new KeyValuePair<string, string>("grant_type", "client_credentials")
-        });
-
-        var response = await _httpClient.PostAsync(tokenEndpoint, requestData);
-
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new Exception(response.ToString());
-        }
-
-        var content = await response.Content.ReadAsStringAsync();
-        var tokenResponse = JsonSerializer.Deserialize<TokenResponse>(content);
-
-        return tokenResponse.AccessToken;
-    }
-
-
-    private string GenerateFullUrl(string url)
-    {
-        return _config.KeyCloakBaseUrl + url;
-    }
-
-
 }

@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Infrastructure.Proxies;
 using Infrastructure.UnitOfWorks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +21,7 @@ public static class InfrastructureExtension
             });
         });
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IKeycloakProxy, KeycloakProxy>();
 
        // services.AddAutoMapper(typeof(MapProfile));
 
