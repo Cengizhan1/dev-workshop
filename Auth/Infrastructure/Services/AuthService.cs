@@ -1,16 +1,12 @@
-﻿using Application.Extensions;
-using Application.Interfaces;
+﻿using Application.Interfaces;
+using Application.Mapping;
 using Domain.ConfigModels;
 using Domain.Requests;
 using Domain.Responses;
-using Infrastructure.Mapping;
 using Infrastructure.Proxies;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Net.Http;
-using System.Runtime.ConstrainedExecution;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Infrastructure.Services;
 

@@ -1,13 +1,13 @@
 ﻿using Api.Exceptions;
 using Application.Interfaces;
+using Application.Mapping;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Requests;
 using Domain.Responses;
-using Infrastructure.Mapping;
 using System.Net;
 
-namespace Infrastructure.Services;
+namespace Application.Services;
 
 public class UserService : IUserService
 {

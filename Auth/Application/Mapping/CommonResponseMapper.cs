@@ -1,7 +1,7 @@
 ﻿using Domain.Responses;
 using System.Net;
 
-namespace Infrastructure.Mapping;
+namespace Application.Mapping;
 
 public static class CommonResponseMapper
 {

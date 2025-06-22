@@ -1,13 +1,8 @@
 ﻿using Application.Interfaces;
-using Azure;
-using Azure.Core;
 using Domain.ConfigModels;
-using Domain.Requests;
 using Domain.Responses;
 using Infrastructure.Services;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Extensions.Logging;
-using System.Net.Http;
 using System.Text.Json;
 using System.Transactions;
 

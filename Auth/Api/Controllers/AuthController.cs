@@ -13,7 +13,7 @@ public class AuthController : CustomBaseController
     public AuthController(IAuthService service)
     {
         this._service = service;
-    } 
+    }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
@@ -39,5 +39,5 @@ public class AuthController : CustomBaseController
     {
         return ApiResponse(await _service.Refresh(request));
     }
-    
+
 }
