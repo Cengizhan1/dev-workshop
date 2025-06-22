@@ -23,7 +23,7 @@ public static class InfrastructureExtension
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IKeycloakProxy, KeycloakProxy>();
 
-       // services.AddAutoMapper(typeof(MapProfile));
+        // services.AddAutoMapper(typeof(MapProfile));
 
         return services;
     }

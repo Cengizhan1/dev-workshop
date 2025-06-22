@@ -1,5 +1,4 @@
-﻿using Domain.Requests;
-using Domain.Responses;
+﻿using Domain.Responses;
 
 namespace Application.Interfaces;
 

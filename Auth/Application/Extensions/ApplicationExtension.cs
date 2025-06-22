@@ -9,7 +9,7 @@ public static class ApplicationExtension
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddValidatorsFromAssemblyContaining<LoginRequestValidator>();
-            
+
         return services;
     }
 }

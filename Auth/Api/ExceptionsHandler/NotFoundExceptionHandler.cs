@@ -1,5 +1,4 @@
 ﻿using Api.Exceptions;
-using System.Net;
 
 namespace Api.ExceptionsHandler;
 
